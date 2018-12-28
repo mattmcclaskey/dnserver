@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import signal
+import awsutils
 from datetime import datetime
 from pathlib import Path
 from textwrap import wrap
@@ -95,7 +96,7 @@ class Resolver(ProxyResolver):
             yield current_line
 
     def load_zones(self, zone_file):
-        assert zone_file.exists(), f'zone files "{zone_file}" does not exist'
+        #assert zone_file.exists(), f'zone files "{zone_file}" does not exist'
         logger.info('loading zone file "%s":', zone_file)
         zones = []
         for line in self.zone_lines():
@@ -110,7 +111,7 @@ class Resolver(ProxyResolver):
                 zones.append(record)
                 logger.info(' %2d: %s', len(zones), record)
             except Exception as e:
-                raise RuntimeError(f'Error processing line ({e.__class__.__name__}: {e}) "{line.strip()}"') from e
+                raise RuntimeError("Error processing line ({0}: {1}) {2}".format(e.__class__.__name__, e, line.strip())) from e
         logger.info('%d zone resource records generated from zone file', len(zones))
         return zones
 
@@ -120,6 +121,16 @@ class Resolver(ProxyResolver):
         for record in self.records:
             if record.match(request.q):
                 reply.add_answer(record.rr)
+
+        if type_name == 'A':
+            qname = str(request.q.qname)
+            print(qname)
+            if len(qname) > 1:
+                qname = qname[:len(qname) -1]
+            ip = awsutils.get_instance_ip(qname)
+            if ip:
+                r = Record(str(request.q.qname), 'A', (ip,))
+                reply.add_answer(r.rr)
 
         if reply.rr:
             logger.info('found zone for %s[%s], %d replies', request.q.qname, type_name, len(reply.rr))
