@@ -17,24 +17,26 @@ You will need to create a policy and user
 1. Go to IAM > Policies
 2. Create Policy
 3. Select JSON tab and paste the following in, overwritting the existing value
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeHosts",
-                "ec2:DescribeAddresses",
-                "ec2:DescribeInstances",
-                "ec2:DescribeNetworkInterfaceAttribute",
-                "ec2:DescribeInstanceAttribute",
-                "ec2:DescribeInstanceStatus"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+
+      {
+           "Version": "2012-10-17",
+           "Statement": [
+               {
+                  "Sid": "VisualEditor0",
+                  "Effect": "Allow",
+                   "Action": [
+                      "ec2:DescribeHosts",
+                      "ec2:DescribeAddresses",
+                      "ec2:DescribeInstances",
+                      "ec2:DescribeNetworkInterfaceAttribute",
+                      "ec2:DescribeInstanceAttribute",
+                      "ec2:DescribeInstanceStatus"
+                  ],
+                  "Resource": "*"
+              }
+          ]
+      }
+
 4. Review Policy, Provide a name such as EC2_LIST_METADATA
 5. Create Policy
 
