@@ -61,13 +61,13 @@ The following assumes a fresh ubuntu 16.04 LTS VM using the AWS AMI.
       mkdir ~/.aws
 
 Create ~/.aws/credentials with the following content. Replace the access key ID and secret access key values with your values you saved from the AWS Configuration steps above
-[default]
-aws_access_key_id=AKIAABC123
-aws_secret_access_key=1234abcdf
+       [default]
+       aws_access_key_id=AKIAABC123
+       aws_secret_access_key=1234abcdf
 
 CREATE ~/.aws/config with the following content. Replace the region with your desired default region
-[default]
-region=us-east-1
+       [default]
+       region=us-east-1
 
 # Start the Service
 sudo python3 dnserver.py
